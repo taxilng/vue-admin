@@ -184,7 +184,7 @@ export default {
     setTimeout(() => {
       this.activeName = this.moduleList[0].name;
     }, 100);
-    this.songUrl = require("@/static/szj.wav");
+   this.songUrl = "/static/szj.wav";
   },
   methods: {
     playSound() {

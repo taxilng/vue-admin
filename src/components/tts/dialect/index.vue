@@ -103,12 +103,12 @@ export default {
       imgPk: "",
       soundData: [
         { label: "女声1", speakId: "szj", url: "/static/szj.wav" },
-        { label: "女声2", speakId: "2", url: require("@/static/mh.wav") },
-        { label: "女声3", speakId: "3", url: require("@/static/yq.wav") },
-        { label: "女声4", speakId: "4", url: require("@/static/tz.wav") },
-        { label: "女声5", speakId: "5", url: require("@/static/lcl.wav") },
-        { label: "女声6", speakId: "6", url: require("@/static/chm.wav") },
-        { label: "女声7", speakId: "7", url: require("@/static/sy.wav") }
+        { label: "女声2", speakId: "2", url: "/static/mh.wav" },
+        { label: "女声3", speakId: "3", url: "/static/yq.wav" },
+        { label: "女声4", speakId: "4", url: "/static/tz.wav" },
+        { label: "女声5", speakId: "5", url: "/static/lcl.wav" },
+        { label: "女声6", speakId: "6", url: "/static/chm.wav" },
+        { label: "女声7", speakId: "7", url: "/static/sy.wav" }
       ]
     };
   },
