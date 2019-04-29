@@ -44,6 +44,11 @@ module.exports = {
         target: 'http://192.168.1.166:8080',
         changeOrigin: true,
         ws: true
+      },
+      '/display/info': {
+        target: 'http://192.168.1.166:8080',
+        changeOrigin: true,
+        ws: true
       }
     }
     // after: require('./mock/mock-server.js')

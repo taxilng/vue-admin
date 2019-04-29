@@ -27,12 +27,13 @@
 
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane
-              v-for="item in moduleList"
-              :key="item.name"
-              :label="item.label"
-              :name="item.name"
+              v-for="(item, key) in moduleList"
+              :key="key"
+              :label="item.name"
+              :name="key"
             >
               <dialect
+                :typesSound="item.display_info"
                 :songVolume="songVolume"
                 :songRate="songRate"
                 @modelChange="modelChange"
@@ -120,10 +121,7 @@ export default {
       speechRate: 50,
       volume: 50,
       playing: false,
-      moduleList: [
-        { name: "cpu", label: "模型1" },
-        { name: "gpu", label: "模型2" },
-      ],
+      moduleList: {},
       textareaRows: 15,
       isChange: false,
       model: 'szj',
@@ -150,13 +148,15 @@ export default {
     }
   },
   mounted () {
-    setTimeout(() => {
-      this.activeName = this.moduleList[0].name;
-    }, 100);
     const winWidth = document.body.clientWidth
     if (winWidth < 768) {
       this.textareaRows = 8
     }
+    request.get("/display/info").then(res => {
+      this.moduleList = res.data
+      this.activeName = Object.keys(this.moduleList)[0]
+      console.log(res.data);
+    })
   },
   methods: {
     async play () {
@@ -202,7 +202,7 @@ export default {
       const url = '/synthesize';
       const data = {
         version: this.activeName,
-        text: this.textarea,
+        text: this.textarea.replace(/\n/g, ""),
         task_id: `taskid${Date.now()}`,
         model: this.model,
         volume: this.volume || 50,

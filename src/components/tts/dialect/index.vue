@@ -10,19 +10,19 @@
     ></player>
     <div class="listContent clear">
       <el-row :gutter="10">
-        <el-col :xs="12" :sm="6" lass="content" v-for="(item, index) in soundData" :key="item.speakId">
+        <el-col :xs="12" :sm="6" lass="content" v-for="(item, index) in typesSound" :key="index">
           <div class="content">
           <div
             class="contentBox"
             :style="{ borderColor: radio == item.speakId? '#4DA1FF': '#DCDFE6' }"
-            @click="checkBoxPick(index)"
+            @click="checkBoxPick(item.speakId)"
           >
             <el-radio v-model="radio" :label="item.speakId">{{item.label}}</el-radio>
             <img src="/static/runningVoice.gif" v-show="imgPk == item.speakId">
             <i
               class="el-icon-caret-right mdplay"
               v-show="imgPk !== item.speakId"
-              @click="playSong(index)"
+              @click="playSong(item.speakId, item.url)"
             ></i>
             <!-- <Icon
             class="mdplay"
@@ -49,7 +49,11 @@ export default {
     songRate: {
       type: Number,
       default: 1
-    }
+    },
+    typesSound: {
+      type: Object,
+      default: {}
+    },
   },
   data() {
     return {
@@ -68,17 +72,20 @@ export default {
       ]
     };
   },
-  mounted() {},
+  mounted() {
+    console.log(this.typesSound);
+    
+  },
   methods: {
-    checkBoxPick(i) {
-      this.radio = this.soundData[i].speakId;
+    checkBoxPick(speakId) {
+      this.radio = speakId;
       // console.log(this.radio);
        this.$emit('modelChange',this.radio)
     },
-    playSong(i) {
-      this.imgPk = this.soundData[i].speakId;
+    playSong(speakId, url = '/static/szj.wav') {
+      this.imgPk = speakId;
       this.$nextTick(() => {
-        this.songUrl = this.soundData[i].url;
+        this.songUrl = url;
         this.$refs.player.playSong();
       });
     },
