@@ -1,6 +1,6 @@
 <template>
   <div>
-    <audio ref="audioDom" :src="songUrl" @canplay="ready" @error="error" @ended="end"></audio>
+    <audio ref="audioDom" :src="songUrl" @canplay="ready" @error="error" @ended="end"  @timeupdate="updateTime"></audio>
   </div>
 </template>
 
@@ -26,15 +26,16 @@ export default {
   },
   data() {
     return {
-      songReady: true
+      songReady: true,
+      currentTime: 0,
     };
   },
   methods: {
     playSong() {
       if (!this.songReady) return;
       this.$nextTick(() => {
-        this.$refs.audioDom.playbackRate = this.songRate;
         this.$refs.audioDom.play();
+        this.$refs.audioDom.playbackRate = this.songRate;
       });
       this.songReady = false;
     },
@@ -43,10 +44,14 @@ export default {
     },
     error() {
       this.songReady = true;
+      this.$emit('playStatus','end')
     },
     end() {
-      this.$emit('playend',false)
-    }
+      this.$emit('playStatus','end')
+    },
+    updateTime (e) {
+      this.$emit('playStatus','doing')
+    },
   },
   watch: {
     songVolume(newVal) {

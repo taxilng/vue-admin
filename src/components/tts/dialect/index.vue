@@ -6,7 +6,7 @@
       :songUrl="songUrl"
       :songVolume="songVolume"
       :songRate="songRate"
-      @playend="playend"
+      @playStatus="playStatus"
     ></player>
     <div class="listContent clear">
       <el-row :gutter="10">
@@ -58,12 +58,13 @@ export default {
       imgPk: "",
       soundData: [
         { label: "女声1", speakId: "szj", url: "/static/szj.wav" },
-        { label: "女声2", speakId: "2", url: "/static/mh.wav" },
-        { label: "女声3", speakId: "3", url: "/static/yq.wav" },
-        { label: "女声4", speakId: "4", url: "/static/tz.wav" },
-        { label: "女声5", speakId: "5", url: "/static/lcl.wav" },
-        { label: "女声6", speakId: "6", url: "/static/chm.wav" },
-        { label: "女声7", speakId: "7", url: "/static/sy.wav" }
+        { label: "女声2", speakId: "mh", url: "/static/mh.wav" },
+        { label: "女声3", speakId: "yq", url: "/static/yq.wav" },
+        { label: "女声4", speakId: "tz", url: "/static/tz.wav" },
+        { label: "女声5", speakId: "lcl", url: "/static/lcl.wav" },
+        { label: "女声6", speakId: "chm", url: "/static/chm.wav" },
+        { label: "女声7", speakId: "sy", url: "/static/sy.wav" },
+        { label: "女声8", speakId: "ss", url: "/static/sy.wav" },
       ]
     };
   },
@@ -71,17 +72,20 @@ export default {
   methods: {
     checkBoxPick(i) {
       this.radio = this.soundData[i].speakId;
+      // console.log(this.radio);
+       this.$emit('modelChange',this.radio)
     },
     playSong(i) {
-      this.radio = this.soundData[i].speakId;
       this.imgPk = this.soundData[i].speakId;
       this.$nextTick(() => {
         this.songUrl = this.soundData[i].url;
         this.$refs.player.playSong();
       });
     },
-    playend() {
-      this.imgPk = "";
+    playStatus(val) {
+      if(val === 'end'){
+        this.imgPk = "";
+      }
     }
   },
   components: {
