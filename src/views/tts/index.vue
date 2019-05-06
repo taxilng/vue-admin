@@ -79,22 +79,30 @@
         <div class="operating">
           <h3>用法</h3>
           <ul>
-            <li><span>数 字</span> : &nbsp;不需要加标点符号</li>
             <li>
-              <span>电话号码</span> : &nbsp;(#83278311)注意里面的「1」读作「幺」
+              <span>数 字</span> : &nbsp;
+              <p>不需要加标点符号</p>
             </li>
             <li>
-              <span>按位号码</span> : &nbsp;($32673)按数字读法「2」
-              读作「二」，「1」 读作「一」
+              <span>电话号码</span> : &nbsp;
+              <p>(#83278311)注意里面的「1」读作「幺」</p>
             </li>
             <li>
-              <span>2两读法</span> : &nbsp;(@32673)按数字读法「2」 读作「两」
+              <span>按位号码</span> : &nbsp;
+              <p>($32673)按数字读法「2」 读作「二」，「1」 读作「一」</p>
             </li>
             <li>
-              <span>2两读法</span> : &nbsp;(!32673)按数字读法「2」
-              读作「两」，「1」 读作「幺」
+              <span>两读法</span> : &nbsp;
+              <p>(@32673)按数字读法「2」 读作「两」</p>
             </li>
-            <li><span>注 意</span> : &nbsp;合成支持英文字母，数字，汉字组合</li>
+            <li>
+              <span></span> &nbsp;&nbsp;&nbsp;
+              <p>(!32673)按数字读法「2」 读作「两」，「1」 读作「幺」</p>
+            </li>
+            <li>
+              <span>注 意</span> : &nbsp;
+              <p>合成支持英文字母，数字，汉字组合</p>
+            </li>
           </ul>
           <p></p>
         </div>
@@ -305,22 +313,37 @@ export default {
   .operating {
     // flex: 2;
     padding-left: 20px;
+    @media screen and (max-width: 1000px) {
+      padding: 20px 0 0 0;
+    }
     h3 {
       font-weight: 700;
     }
     ul {
       li {
         font-weight: 600;
-        margin: 10px 0;
+        margin: 15px 0;
+        display: flex;
         span {
-          font-weight: 600;
           display: inline-block;
-          width: 65px;
+          width: 80px;
           text-align: justify;
           text-justify: distribute-all-lines; /*ie6-8*/
           text-align-last: justify; /* ie9*/
           -moz-text-align-last: justify; /*ff*/
           -webkit-text-align-last: justify; /*chrome 20+*/
+          &:after {
+            content: ".";
+            width: 100%;
+            display: inline-block;
+            overflow: hidden;
+            height: 0;
+          }
+        }
+
+        p {
+          flex: 1;
+          margin-left: 5px;
         }
       }
     }

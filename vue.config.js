@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'vue Admin Template' // page title
+const name = defaultSettings.title || 'AI' // page title
 const port = 9528 // dev port
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
@@ -41,12 +41,12 @@ module.exports = {
       //   }
       // }
       '/synthesize': {
-        target: 'http://192.168.1.166:8080',
+        target: 'http://192.168.1.89:8080',
         changeOrigin: true,
         ws: true
       },
       '/display/info': {
-        target: 'http://192.168.1.166:8080',
+        target: 'http://192.168.1.89:8080',
         changeOrigin: true,
         ws: true
       }

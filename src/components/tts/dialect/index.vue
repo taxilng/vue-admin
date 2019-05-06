@@ -74,7 +74,9 @@ export default {
   },
   mounted() {
     console.log(this.typesSound);
-    
+    const key = Object.keys(this.typesSound)[0],
+    speakId = this.typesSound[key].speakId
+    this.checkBoxPick(speakId)
   },
   methods: {
     checkBoxPick(speakId) {
