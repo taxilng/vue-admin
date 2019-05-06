@@ -81,23 +81,23 @@
           <ul>
             <li>
               <span>数 字</span> : &nbsp;
-              <p>不需要加标点符号</p>
+              <p>不需要加标记符号</p>
             </li>
             <li>
               <span>电话号码</span> : &nbsp;
-              <p>(#83278311)注意里面的「1」读作「幺」</p>
+              <p>(#83278311)注意里面的1读作幺</p>
             </li>
             <li>
               <span>按位号码</span> : &nbsp;
-              <p>($32673)按数字读法「2」 读作「二」，「1」 读作「一」</p>
+              <p>($32673)按数字读法 2 读作 二，1 读作 一 </p>
             </li>
             <li>
               <span>两读法</span> : &nbsp;
-              <p>(@32673)按数字读法「2」 读作「两」</p>
+              <p>(@32673)按数字读法 2 读作 两</p>
             </li>
             <li>
               <span></span> &nbsp;&nbsp;&nbsp;
-              <p>(!32673)按数字读法「2」 读作「两」，「1」 读作「幺」</p>
+              <p>(!32673)按数字读法 2 读作 两，1 读作 幺</p>
             </li>
             <li>
               <span>注 意</span> : &nbsp;
@@ -229,7 +229,7 @@ export default {
         } else {
           this.$notify.error({
             title: '错误',
-            message: '系统错误'
+            message: '请输入正确的文本语句'
           });
           return false
         }
@@ -237,7 +237,7 @@ export default {
         this.ajaxLoading = false;
         this.$notify.error({
           title: '错误',
-          message: '系统错误'
+          message: '请输入正确的文本语句'
         });
         return false
       }
