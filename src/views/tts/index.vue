@@ -25,7 +25,7 @@
             </div>
           </div>
 
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-model="activeName" @tab-click="handleClick(activeName)">
             <el-tab-pane
               v-for="(item, key) in moduleList"
               :key="key"
@@ -189,8 +189,13 @@ export default {
     playSound () {
       this.playing = !this.playing;
     },
-    handleClick (tab, event) {
-      console.log(tab, event);
+    handleClick (activeName) {
+      console.log(activeName);
+      try {
+        this.model = Object.keys(this.moduleList[activeName].display_info)[0]
+      } catch (error) {
+        console.log(error);
+      }
     },
     formatVolumeToolTip (index) {
       return "音量条: " + index;
