@@ -10,27 +10,40 @@
     ></player>
     <div class="listContent clear">
       <el-row :gutter="10">
-        <el-col :xs="12" :sm="6" lass="content" v-for="(item, index) in typesSound" :key="index">
+        <el-col
+          :xs="12"
+          :sm="6"
+          lass="content"
+          v-for="(item, index) in typesSound"
+          :key="index"
+        >
           <div class="content">
-          <div
-            class="contentBox"
-            :style="{ borderColor: radio == item.speakId? '#4DA1FF': '#DCDFE6' }"
-            @click="checkBoxPick(item.speakId)"
-          >
-            <el-radio v-model="radio" :label="item.speakId">{{item.label}}</el-radio>
-            <img src="/static/runningVoice.gif" v-show="imgPk == item.speakId">
-            <i
-              class="el-icon-caret-right mdplay"
-              v-show="imgPk !== item.speakId"
-              @click="playSong(item.speakId, item.url)"
-            ></i>
-            <!-- <Icon
+            <div
+              class="contentBox"
+              :style="{
+                borderColor: radio == item.speakId ? '#4DA1FF' : '#DCDFE6'
+              }"
+              @click="checkBoxPick(item.speakId)"
+            >
+              <el-radio v-model="radio" :label="item.speakId">{{
+                item.label
+              }}</el-radio>
+              <img
+                src="/static/runningVoice.gif"
+                v-show="imgPk == item.speakId"
+              />
+              <i
+                class="el-icon-caret-right mdplay"
+                v-show="imgPk !== item.speakId"
+                @click="playSong(item.speakId, item.url)"
+              ></i>
+              <!-- <Icon
             class="mdplay"
             type="md-play"
             v-show="imgPk !== item.speakId"
             @click="playSong(index)"
             />-->
-          </div>
+            </div>
           </div>
         </el-col>
       </el-row>
@@ -54,8 +67,16 @@ export default {
       type: Object,
       default: {}
     },
+    switchTab: {
+      type: String,
+      default: ''
+    },
+    curkey: {
+      type: String,
+      default: ''
+    },
   },
-  data() {
+  data () {
     return {
       songUrl: null,
       radio: null,
@@ -72,33 +93,42 @@ export default {
       ]
     };
   },
-  mounted() {
-    console.log(this.typesSound);
+  mounted () {
+    // console.log(this.typesSound);
     const key = Object.keys(this.typesSound)[0],
-    speakId = this.typesSound[key].speakId
+      speakId = this.typesSound[key].speakId
     this.checkBoxPick(speakId)
   },
   methods: {
-    checkBoxPick(speakId) {
+    checkBoxPick (speakId) {
       this.radio = speakId;
       // console.log(this.radio);
-       this.$emit('modelChange',this.radio)
+      this.$emit('modelChange', this.radio)
     },
-    playSong(speakId, url = '/static/szj.wav') {
+    playSong (speakId, url = '/static/szj.wav') {
       this.imgPk = speakId;
       this.$nextTick(() => {
         this.songUrl = url;
         this.$refs.player.playSong();
       });
     },
-    playStatus(val) {
-      if(val === 'end'){
+    playStatus (val) {
+      if (val === 'end') {
         this.imgPk = "";
       }
     }
   },
   components: {
     player
+  },
+  watch: {
+    switchTab (val) {
+      if(val === this.curkey){
+        const key = Object.keys(this.typesSound)[0]
+        const speakId = this.typesSound[key].speakId
+        this.checkBoxPick(speakId)
+      }
+    }
   }
 };
 </script>

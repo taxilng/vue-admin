@@ -34,6 +34,8 @@
             >
               <dialect
                 :typesSound="item.display_info"
+                :curkey="key"
+                :switchTab="switchTab"
                 :songVolume="songVolume"
                 :songRate="songRate"
                 @modelChange="modelChange"
@@ -121,6 +123,7 @@ import { debug } from 'util';
 export default {
   data () {
     return {
+      switchTab: '',
       ajaxLoading: false,
       songUrl: "/static/szj.wav",
       songStatus: 'end',
@@ -163,12 +166,12 @@ export default {
     request.get("/display/info").then(res => {
       this.moduleList = res.data
       this.activeName = Object.keys(this.moduleList)[0]
-      console.log(res.data);
+      // console.log(res.data);
     })
   },
   methods: {
     async play () {
-      console.log(this.activeName);
+      // console.log(this.activeName);
       let flag = true;
       if (!this.textarea) {
         this.$notify({
@@ -180,8 +183,6 @@ export default {
       }
       if (this.isChange) {
         flag = await this.synthesis()
-        console.log('flag', flag);
-
         flag && (this.isChange = false)
       }
       flag && this.playSound()
@@ -190,12 +191,7 @@ export default {
       this.playing = !this.playing;
     },
     handleClick (activeName) {
-      console.log(activeName);
-      try {
-        this.model = Object.keys(this.moduleList[activeName].display_info)[0]
-      } catch (error) {
-        console.log(error);
-      }
+     this.switchTab = activeName;
     },
     formatVolumeToolTip (index) {
       return "音量条: " + index;
@@ -213,6 +209,8 @@ export default {
     async synthesis () {
       // const url = 'http://192.168.1.166:8080/synthesize'
       const url = '/synthesize';
+      console.log(this.model, this.activeName);
+      
       const data = {
         version: this.activeName,
         text: this.textarea.replace(/\n/g, ""),
@@ -227,7 +225,7 @@ export default {
           responseType: 'blob'
         })
         this.ajaxLoading = false;
-        console.log(blob);
+        // console.log(blob);
         this.songUrl = URL.createObjectURL(blob.data)
         if (blob.data.type === 'audio/wav') {
           return true;
