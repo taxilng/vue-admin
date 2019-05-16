@@ -1,12 +1,5 @@
 <template>
   <div class="tts">
-    <player
-      :songUrl="songUrl"
-      :songVolume="songVolume"
-      :songRate="songRate"
-      :playing="playing"
-      @playStatus="playStatus"
-    ></player>
     <el-row :gutter="10">
       <el-col :xs="24" :sm="16">
         <div class="content">
@@ -62,6 +55,15 @@
               ></el-slider>
             </el-col>
           </el-row>
+          <player
+            :songUrl="songUrl"
+            :songVolume="songVolume"
+            :songRate="songRate"
+            :playing="playing"
+            :showControls="true"
+            @playStatus="playStatus"
+            @changeVolume="changeVolume"
+          ></player>
           <el-row :gutter="20">
             <el-col :xs="24" :sm="4">
               <el-button
@@ -91,7 +93,7 @@
             </li>
             <li>
               <span>按位号码</span> : &nbsp;
-              <p>($32673)按数字读法 2 读作 二，1 读作 一 </p>
+              <p>($32673)按数字读法 2 读作 二，1 读作 一</p>
             </li>
             <li>
               <span>两读法</span> : &nbsp;
@@ -103,7 +105,9 @@
             </li>
             <li>
               <span>注 意</span> : &nbsp;
-              <p>只支持汉字、数字、字母、逗号、句号、问号以及上面自定义的输入规则，其他的特殊字符都是非法的</p>
+              <p>
+                只支持汉字、数字、字母、逗号、句号、问号以及上面自定义的输入规则，其他的特殊字符都是非法的
+              </p>
             </li>
           </ul>
           <p></p>
@@ -125,7 +129,7 @@ export default {
     return {
       switchTab: '',
       ajaxLoading: false,
-      songUrl: "/static/szj.wav",
+      songUrl: "",
       songStatus: 'end',
       textarea: "",
       activeName: 'CPU',
@@ -143,11 +147,11 @@ export default {
       return this.playing ? "md-pause" : "md-play";
     },
     playText () {
-      if (this.playing) {
-        return "暂停播放"
-      } else if (this.songStatus === 'end') {
+      if (this.isChange || this.songStatus === 'end') {
         return "立即播放"
-      } else if (this.songStatus === 'doing') {
+      } else if (this.playing) {
+        return "暂停播放"
+      } else {
         return "继续播放"
       }
     },
@@ -182,16 +186,19 @@ export default {
         return;
       }
       if (this.isChange) {
+        this.isChange = false
         flag = await this.synthesis()
-        flag && (this.isChange = false)
+        this.playing = true;
+        // flag && (this.isChange = false)
+      } else if (flag) {
+        this.playSound()
       }
-      flag && this.playSound()
     },
     playSound () {
       this.playing = !this.playing;
     },
     handleClick (activeName) {
-     this.switchTab = activeName;
+      this.switchTab = activeName;
     },
     formatVolumeToolTip (index) {
       return "音量条: " + index;
@@ -204,13 +211,21 @@ export default {
       if (status === 'end') {
         this.playing = false;
         this.songEnd = true;
+      } else if (status === 'pause') {
+        this.playing = false;
+      } else if (status === 'play') {
+        this.playing = true;
       }
+    },
+    changeVolume (volume) {
+      // console.log(volume);
+      this.volume = volume * 100
     },
     async synthesis () {
       // const url = 'http://192.168.1.166:8080/synthesize'
       const url = '/synthesize';
       console.log(this.model, this.activeName);
-      
+
       const data = {
         version: this.activeName,
         text: this.textarea.replace(/\n/g, ""),
@@ -253,16 +268,19 @@ export default {
     textarea (newV, oldVal) {
       if (newV !== oldVal) {
         this.isChange = true;
+        this.playing = false;
       }
     },
     activeName (newV, oldVal) {
       if (newV !== oldVal) {
         this.isChange = true;
+        this.playing = false;
       }
     },
     model (newV, oldVal) {
       if (newV !== oldVal) {
         this.isChange = true;
+        this.playing = false;
       }
     },
   },
