@@ -7,6 +7,7 @@
       @error="error"
       @ended="end"
       @timeupdate="updateTime"
+      @volumechange="volumechange"
       :controls="showControls"
     ></audio>
   </div>
@@ -67,15 +68,16 @@ export default {
       } else {
         this.$emit('playStatus', 'play')
       }
-      const muted = this.$refs.audioDom.muted
-      // console.log(muted);
-      if(muted){
-        this.$emit('changeVolume', 0)
-      }else{
-        this.$emit('changeVolume', this.$refs.audioDom.volume)
-      }
-      
     },
+    volumechange(e) {
+      const muted = this.$refs.audioDom.muted
+      console.log(muted);
+      // if(muted){
+      //   this.$emit('changeVolume', 0)
+      // }else{
+      //   this.$emit('changeVolume', this.$refs.audioDom.volume)
+      // // }
+    }
   },
   watch: {
     songVolume (newVal) {
