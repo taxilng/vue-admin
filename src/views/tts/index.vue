@@ -1,5 +1,5 @@
 <template>
-  <div class="tts">
+  <div class="tts" v-loading.fullscreen.lock='ajaxLoading' element-loading-background="rgba(0, 0, 0, 0.8)">
     <el-row :gutter="10">
       <el-col :xs="24" :sm="16">
         <div class="content">
